@@ -1,7 +1,12 @@
+using BookStore.Data;
+using BookStore.Data.Interfaces;
+using BookStore.Services;
+using BookStore.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +30,19 @@ namespace BookStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<BookStoreDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("BookStoreDB"));
+            });
+
             services.AddControllers();
+
+            //services
+            services.AddTransient<IBooksService,BooksService>();
+
+            //repositories
+            services.AddTransient<IBooksRepository, BooksRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
