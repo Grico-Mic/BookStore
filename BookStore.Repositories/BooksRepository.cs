@@ -43,6 +43,25 @@ namespace BookStore.Data
             return _bookStoreDbContext.Books.FirstOrDefault(x => x.Title.ToLower() == title.ToLower());
         }
 
+        public List<Book> GetWithFilters(string title, string author)
+        {
+            {
+                var books = _bookStoreDbContext.Books.AsQueryable();
+
+                if (title != null)
+                {
+                    books = books.Where(x => x.Title.ToLower().Contains(title.ToLower()));
+                }
+
+                if (author != null)
+                {
+                    books = books.Where(x => x.Author.ToLower().Contains(author.ToLower()));
+                }
+
+                return books.ToList();
+            }
+        }
+
         public void Update(Book book)
         {
             _bookStoreDbContext.Books.Update(book);

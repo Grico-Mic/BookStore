@@ -12,5 +12,6 @@ namespace BookStore.Services.Interfaces
         void Delete(int id);
         void Update(Book book);
         Book GetById(int id);
+        List<Book> GetWithFilters(string title, string author);
     }
 }
