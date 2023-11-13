@@ -49,9 +49,11 @@ namespace BookStore
 
             //services
             services.AddTransient<IBooksService,BooksService>();
+            services.AddTransient<IOrdersService, OrdersService>();
 
             //repositories
             services.AddTransient<IBooksRepository, BooksRepository>();
+            services.AddTransient<IOrdersRepository, OrdersRepository>();
 
         }
 

@@ -6,22 +6,22 @@ using System.Text;
 
 namespace BookStore.Models
 {
-    public class Book
+    public class Order
     {
         public int Id { get; set; }
         [Required]
-        public string Title { get; set; }
+        public string FullName { get; set; }
         [Required]
-        public string Description { get; set; }
+        public string Email { get; set; }
         [Required]
-        public string Author { get; set; }
+        public string Address { get; set; }
         [Required]
-        public string Ganre { get; set; }
+        public string Phone { get; set; }
         [Required]
-        public int Quantity { get; set; }
+        public DateTime DateCreated { get; set; }
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Price { get; set; }
+        public decimal FullPrice { get; set; }
         [Required]
         public List<BookOrder> BookOrders { get; set; }
 

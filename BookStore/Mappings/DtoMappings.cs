@@ -1,5 +1,6 @@
 ﻿using BookStore.DtoModels;
 using BookStore.Models;
+using System.Linq;
 
 namespace BookStore.Mappings
 {
@@ -30,6 +31,21 @@ namespace BookStore.Mappings
                 Ganre = entity.Ganre,
                 Price = entity.Price,
                 Quantity = entity.Quantity
+            };
+        }
+
+        public static Order ToDomainModel(this CreateOrderDto entity)
+        {
+            return new Order()
+            {
+
+                FullName = entity.FullName,
+                Email = entity.Email,
+                Address = entity.Address,
+                Phone = entity.Phone,
+                BookOrders = entity.BookIds.Select(x => new BookOrder() { BookId = x}).ToList()
+              
+               
             };
         }
     }
