@@ -1,3 +1,4 @@
+using BookStore.Custom;
 using BookStore.Data;
 using BookStore.Data.Interfaces;
 using BookStore.Services;
@@ -38,6 +39,14 @@ namespace BookStore
                 options.UseSqlServer(Configuration.GetConnectionString("BookStoreDB"));
             });
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+                options.DefaultChallengeScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+            }).AddApiKeySupport(options => { } );
+           
+             
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", builder =>
@@ -63,6 +72,34 @@ namespace BookStore
                         Url = new Uri("https://www.linkedin.com/in/igor-golab-30a406214/")
                     },
                 });
+
+                options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme()
+                {
+                    Description = "ApiKey Authorization header. Format: \"ApiKey {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "ApiKey"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme, Id = "ApiKey"
+                            },
+                            Scheme = "ApiKey",
+                            Name = "ApiKey",
+                            In = ParameterLocation.Header
+                        },
+                        new List<string> { }
+                    }
+                });
+
+
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
@@ -75,7 +112,7 @@ namespace BookStore
             //repositories
             services.AddTransient<IBooksRepository, BooksRepository>();
             services.AddTransient<IOrdersRepository, OrdersRepository>();
-
+            services.AddTransient<IApplicationsRepository, ApplicationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,6 +135,8 @@ namespace BookStore
             });
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

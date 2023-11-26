@@ -2,6 +2,7 @@
 using BookStore.Mappings;
 using BookStore.Models;
 using BookStore.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -52,6 +53,7 @@ namespace BookStore.Controllers
         /// <param name="book"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize]
         public IActionResult Create(BookDto book)
 
         {
@@ -77,6 +79,7 @@ namespace BookStore.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("{id}") ]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             _booksService.Delete(id);
@@ -90,6 +93,7 @@ namespace BookStore.Controllers
         /// <response code="200">No data</response>
         /// <response code="400">If request data is invalid</response>
         [HttpPut]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Update(BookDto book )
@@ -105,7 +109,5 @@ namespace BookStore.Controllers
             }
            
         }
-
-
     }
 }
