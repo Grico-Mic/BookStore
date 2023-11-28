@@ -46,7 +46,7 @@ namespace BookStore.Custom
 
             var apiKey = headerValue.Parameter;
 
-            var application = _applicationsRepository.GetByApiKey(apiKey);
+            var application = await _applicationsRepository.GetByApiKeyAsync(apiKey);
 
             if (application != null)
             {

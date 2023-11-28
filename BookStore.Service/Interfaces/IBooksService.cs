@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Services.Interfaces
 {
     public interface IBooksService
     {
         List<Book> GetAll();
-        bool Create(Book book);
+        Task<bool> CreateAsync(Book book);
         void Delete(int id);
         void Update(Book book);
         Book GetById(int id);

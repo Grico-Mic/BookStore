@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Data.Interfaces
 {
@@ -12,7 +13,7 @@ namespace BookStore.Data.Interfaces
         Book GetById(int id);
         void Delete(Book book);
         void Update(Book book);
-        Book GetByTitle(string title);
         List<Book> GetWithFilters(string title, string author);
+        Task<Book> GetByTitleAsync(string title);
     }
 }
